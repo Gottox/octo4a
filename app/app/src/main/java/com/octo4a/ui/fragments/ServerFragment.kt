@@ -111,11 +111,6 @@ class ServerFragment : Fragment() {
             }
         }
 
-        serverStatus.setOnClickListener {
-            if (statusViewModel.serverStatus.value == ServerStatus.Running) {
-                openWebInterface()
-            }
-        }
 
         statusViewModel.cameraStatus.observe(viewLifecycleOwner) {
             if (it) {
@@ -169,6 +164,13 @@ class ServerFragment : Fragment() {
             }
             serverStatus.actionProgressbar.isGone = !it.progress
             serverStatus.actionButton.isGone = it.progress
+            if (it == ServerStatus.Running) {
+                serverStatus.setOnClickListener {
+                    openWebInterface()
+                }
+            } else {
+                serverStatus.setOnClickListener(null)
+            }
         }
 
         // Fetch autoupdater
